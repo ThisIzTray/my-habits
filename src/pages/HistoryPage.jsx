@@ -17,7 +17,7 @@ export default function HistoryPage({ habits, onBack }) {
   sessions.forEach(s => {
     globalValues[s.date] = (globalValues[s.date] || 0) + s.count
   })
-  const dailyTarget = Math.max(1, habits.reduce((s, h) => s + h.target_per_week, 0) / 7)
+  const weeklyTarget = Math.max(1, habits.reduce((s, h) => s + h.target_per_week, 0))
 
   return (
     <div className="history-page">
@@ -28,7 +28,7 @@ export default function HistoryPage({ habits, onBack }) {
 
       <div className="history-section">
         <div className="section-label" style={{ marginBottom: 8 }}>Vue globale — 13 semaines</div>
-        <Heatmap days={days} values={globalValues} maxValue={dailyTarget} today={today} />
+        <Heatmap days={days} values={globalValues} maxValue={weeklyTarget} today={today} />
       </div>
 
       {habits.map(habit => {

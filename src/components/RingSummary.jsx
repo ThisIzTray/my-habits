@@ -11,7 +11,7 @@ export default function RingSummary({ done, total }) {
           <circle cx="36" cy="36" r="30" fill="none" stroke="var(--surface2)" strokeWidth="5" />
           <circle
             cx="36" cy="36" r="30" fill="none"
-            stroke="var(--accent)" strokeWidth="5" strokeLinecap="round"
+            stroke={pct === 100 ? 'var(--text)' : 'var(--muted)'} strokeWidth="5" strokeLinecap="round"
             strokeDasharray={circumference}
             strokeDashoffset={offset}
             style={{ transition: 'stroke-dashoffset .5s cubic-bezier(.4,0,.2,1)' }}

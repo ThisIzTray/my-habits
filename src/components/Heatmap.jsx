@@ -19,7 +19,7 @@ export default function Heatmap({ days, values, maxValue = 1, color, today }) {
             key={date}
             className={`heatmap-cell heatmap-cell--${intensity}${isToday ? ' heatmap-cell--today' : ''}`}
             style={style}
-            title={date}
+            title={new Date(date + 'T12:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
           />
         )
       })}

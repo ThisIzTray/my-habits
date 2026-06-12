@@ -70,6 +70,17 @@ export async function getSessionsForDays(days) {
   return data
 }
 
+export async function getFirstHabitDate() {
+  const { data, error } = await supabase
+    .from('habits')
+    .select('created_at')
+    .order('created_at', { ascending: true })
+    .limit(1)
+    .single()
+  if (error) return null
+  return data?.created_at ?? null
+}
+
 export async function deleteSessionsForHabitWeek(habitId, weekStart, weekEnd) {
   const { error } = await supabase
     .from('sessions')

@@ -48,9 +48,20 @@ export function useSessions(weekDates) {
     return sessions[`${habitId}_${date}`] || 0
   }
 
+  async function setCount(habitId, newCount) {
+    const key = `${habitId}_${weekDates[0]}`
+    const prev = sessions[key] || 0
+    setSessions(s => ({ ...s, [key]: newCount }))
+    try {
+      await upsertSession(habitId, weekDates[0], newCount)
+    } catch (e) {
+      setSessions(s => ({ ...s, [key]: prev }))
+    }
+  }
+
   function getWeekCount(habitId) {
     return sessions[`${habitId}_${weekDates[0]}`] || 0
   }
 
-  return { sessions, loading, toggle, resetHabit, getCount, getWeekCount, reload: load }
+  return { sessions, loading, toggle, setCount, resetHabit, getCount, getWeekCount, reload: load }
 }

@@ -19,13 +19,13 @@ export default function HeatmapGlobal({ habits, onViewHistory }) {
       .catch(console.error)
   }, [])
 
-  const dailyTarget = Math.max(1, habits.reduce((s, h) => s + h.target_per_week, 0) / 7)
+  const weeklyTarget = Math.max(1, habits.reduce((s, h) => s + h.target_per_week, 0))
 
   return (
     <div className="heatmap-global" onClick={onViewHistory} role="button" tabIndex={0}
       onKeyDown={e => e.key === 'Enter' && onViewHistory()}>
       <div className="section-label" style={{ marginBottom: 8 }}>Historique</div>
-      <Heatmap days={days} values={values} maxValue={dailyTarget} today={today} />
+      <Heatmap days={days} values={values} maxValue={weeklyTarget} today={today} />
       <div className="heatmap-hint">Voir tout →</div>
     </div>
   )
