@@ -1,4 +1,4 @@
-export default function HabitCard({ habit, weekCount, target, onSetCount, weekDates, onReset }) {
+export default function HabitCard({ habit, weekCount, target, onSetCount, weekDates, onReset, isCurrentWeek }) {
   const pct = Math.min(weekCount / target, 1)
   const complete = weekCount >= target
 
@@ -12,7 +12,7 @@ export default function HabitCard({ habit, weekCount, target, onSetCount, weekDa
         <span className="habit-emoji">{habit.emoji}</span>
         <span className="habit-name">{habit.name}</span>
         <div className="habit-top-right">
-          {weekCount > 0 && (
+          {weekCount > 0 && isCurrentWeek && (
             <button className="habit-reset" onClick={() => onReset(habit.id)} title="Réinitialiser">↺</button>
           )}
           <span className="habit-count" style={complete ? { color: habit.color } : {}}>

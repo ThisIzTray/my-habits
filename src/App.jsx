@@ -87,6 +87,7 @@ export default function App() {
                   onSetCount={setCount}
                   onReset={resetHabit}
                   weekDates={weekDates}
+                  isCurrentWeek={isCurrentWeek}
                 />
               ))
             )}

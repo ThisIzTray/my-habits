@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { getSessionsForWeek, upsertSession } from '../lib/habits'
+import { getSessionsForWeek, upsertSession, deleteSessionsForHabitWeek } from '../lib/habits'
 
 export function useSessions(weekDates) {
   const [sessions, setSessions] = useState({})
@@ -35,10 +35,14 @@ export function useSessions(weekDates) {
   }
 
   async function resetHabit(habitId) {
-    const key = `${habitId}_${weekDates[0]}`
-    setSessions(prev => ({ ...prev, [key]: 0 }))
+    // Remove all session keys for this habit in the current week (optimistic)
+    setSessions(prev => {
+      const next = { ...prev }
+      weekDates.forEach(date => { delete next[`${habitId}_${date}`] })
+      return next
+    })
     try {
-      await upsertSession(habitId, weekDates[0], 0)
+      await deleteSessionsForHabitWeek(habitId, weekDates[0], weekDates[6])
     } catch (e) {
       load()
     }
@@ -60,7 +64,8 @@ export function useSessions(weekDates) {
   }
 
   function getWeekCount(habitId) {
-    return sessions[`${habitId}_${weekDates[0]}`] || 0
+    // Sum all days to handle both weekly (Monday) and per-day session models
+    return weekDates.reduce((sum, date) => sum + (sessions[`${habitId}_${date}`] || 0), 0)
   }
 
   return { sessions, loading, toggle, setCount, resetHabit, getCount, getWeekCount, reload: load }
